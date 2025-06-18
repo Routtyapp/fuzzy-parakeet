@@ -1,43 +1,210 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
+    <meta name="theme-color" content="#4ECDC4" />
+    
+    <!-- SEO 메타 태그 -->
+    <meta name="description" content="창의적이고 혁신적인 개발자의 포트폴리오 사이트입니다. React, JavaScript, Node.js 등 다양한 기술을 활용한 프로젝트를 소개합니다." />
+    <meta name="keywords" content="포트폴리오, 개발자, React, JavaScript, 웹개발, 프론트엔드, 백엔드, 풀스택" />
+    <meta name="author" content="Your Name" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://yourportfolio.com/" />
+    <meta property="og:title" content="Your Name - 개발자 포트폴리오" />
+    <meta property="og:description" content="창의적이고 혁신적인 개발자의 포트폴리오 사이트입니다." />
+    <meta property="og:image" content="%PUBLIC_URL%/og-image.jpg" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://yourportfolio.com/" />
+    <meta property="twitter:title" content="Your Name - 개발자 포트폴리오" />
+    <meta property="twitter:description" content="창의적이고 혁신적인 개발자의 포트폴리오 사이트입니다." />
+    <meta property="twitter:image" content="%PUBLIC_URL%/og-image.jpg" />
+    
+    <!-- 애플 터치 아이콘 -->
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
+    
+    <!-- 웹 앱 매니페스트 -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
+    
+    <!-- 폰트 프리로드 (성능 최적화) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Fonts - SF Pro Display 대안으로 Inter 사용 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- 파비콘 다양한 크기 -->
+    <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon-16x16.png">
+    
+    <!-- 구조화된 데이터 (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Your Name",
+      "jobTitle": "Software Developer",
+      "url": "https://yourportfolio.com",
+      "sameAs": [
+        "https://github.com/yourusername",
+        "https://linkedin.com/in/yourprofile",
+        "https://twitter.com/yourusername"
+      ],
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Your Company"
+      },
+      "alumniOf": {
+        "@type": "EducationalOrganization",
+        "name": "Your University"
+      },
+      "knowsAbout": [
+        "JavaScript",
+        "React",
+        "Node.js",
+        "Python",
+        "Web Development",
+        "Software Engineering"
+      ]
+    }
+    </script>
+    
+    <title>Your Name - 개발자 포트폴리오</title>
+    
+    <!-- CSS 변수 설정 -->
+    <style>
+      :root {
+        --primary-color: #4ECDC4;
+        --secondary-color: #FF6B6B;
+        --accent-color: #45B7D1;
+        --text-color: #333333;
+        --background-color: #ffffff;
+        --surface-color: #f8f9fa;
+        --border-color: #e0e0e0;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+        
+        /* 폰트 패밀리 업데이트 */
+        --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+      }
+      
+      /* 다크 모드 지원 준비 */
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --text-color: #ffffff;
+          --background-color: #1a1a1a;
+          --surface-color: #2d2d2d;
+          --border-color: #404040;
+          --shadow-color: rgba(0, 0, 0, 0.3);
+        }
+      }
+      
+      /* 로딩 스크린 */
+      .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--background-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        opacity: 1;
+        transition: opacity 0.5s ease-out;
+      }
+      
+      .loading-screen.fade-out {
+        opacity: 0;
+        pointer-events: none;
+      }
+      
+      .loading-spinner {
+        width: 60px;
+        height: 60px;
+        border: 4px solid var(--border-color);
+        border-top: 4px solid var(--primary-color);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      /* 폰트 로딩 최적화 */
+      .font-loading {
+        font-family: var(--font-family);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      
+      .font-loaded {
+        opacity: 1;
+      }
+    </style>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
+    <!-- 브라우저 호환성 안내 -->
+    <noscript>
+      <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+        <h2>JavaScript가 필요합니다</h2>
+        <p>이 웹사이트를 제대로 보시려면 JavaScript를 활성화해주세요.</p>
+        <p>You need to enable JavaScript to run this app.</p>
+      </div>
+    </noscript>
+    
+    <!-- 로딩 스크린 -->
+    <div id="loading-screen" class="loading-screen">
+      <div class="loading-spinner"></div>
+    </div>
+    
+    <!-- React 앱이 마운트될 루트 엘리먼트 -->
+    <div id="root" class="font-loading"></div>
+    
+    <!-- 폰트 로딩 스크립트 -->
+    <script>
+      // 폰트 로딩 완료 시 클래스 추가
+      document.fonts.ready.then(function () {
+        document.getElementById('root').classList.add('font-loaded');
+      });
+      
+      // 페이지 로딩 완료 시 로딩 스크린 제거
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          const loadingScreen = document.getElementById('loading-screen');
+          loadingScreen.classList.add('fade-out');
+          setTimeout(function() {
+            loadingScreen.style.display = 'none';
+          }, 500);
+        }, 1000); // 최소 1초 동안 로딩 화면 표시
+      });
+      
+      // 에러 처리
+      window.addEventListener('error', function(e) {
+        console.error('전역 에러 발생:', e.error);
+        // 에러 리포팅 서비스에 전송할 수 있습니다
+      });
+      
+      // 처리되지 않은 Promise 거부 처리
+      window.addEventListener('unhandledrejection', function(e) {
+        console.error('처리되지 않은 Promise 거부:', e.reason);
+        // 에러 리포팅 서비스에 전송할 수 있습니다
+      });
+    </script>
+    
+    <!-- 
+      이 HTML 파일은 템플릿입니다.
+      브라우저에서 열면 빈 페이지가 보일 것입니다.
+      
+      개발 또는 프로덕션 빌드를 실행하면 
+      번들된 스크립트가 이 페이지에 자동으로 추가됩니다.
     -->
   </body>
 </html>

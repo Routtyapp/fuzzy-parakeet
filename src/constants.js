@@ -1,0 +1,76 @@
+// constants.js
+export const ANIMATION_CONFIG = {
+  FAST_DURATION: 0.05,
+  SLOW_DURATION: 0.3,
+  FAST_EASE: "power3.out",
+  SLOW_EASE: "power1.out",
+  PAGE_TRANSITION_DURATION: 0.3
+};
+
+export const PRESET_CONFIG = {
+  1: {
+    title: "안녕하세요",
+    subtitle: "창의적이고 혁신적인 개발자입니다",
+    colorStops: ["#3A29FF", "#FF94B4", "#FF3232"],
+    aurora: {
+      blend: 0.5,
+      amplitude: 1.0,
+      speed: 0.5
+    },
+    orb: {
+      hoverIntensity: 0.3,
+      rotateOnHover: true,
+      hue: 17,
+      forceHoverState: false
+    }
+  },
+  2: {
+    title: "Space Explorer",
+    subtitle: "우주를 탐험하고 혜성을 만들어보세요 ✨",
+    theme: "space"
+  },
+  3: {
+    title: "Future Ready",
+    subtitle: "최신 기술로 미래를 만들어갑니다",
+    elementCounts: {
+      desktop: { matrixCols: 100, gridH: 20, gridV: 25 },
+      tablet: { matrixCols: 60, gridH: 15, gridV: 18 },
+      mobile: { matrixCols: 30, gridH: 10, gridV: 12 }
+    }
+  }
+};
+
+export const NAVIGATION_CONFIG = [
+  { icon: 'VscHome', label: '홈', page: 'home', key: '1' },
+  { icon: 'VscAccount', label: '소개', page: 'about', key: '2' },
+  { icon: 'VscTools', label: '기술', page: 'skills', key: '3' },
+  { icon: 'VscBriefcase', label: '경험', page: 'experience', key: '4' },
+  { icon: 'VscMail', label: '연락처', page: 'contact', key: '5' }
+];
+
+export const BLOB_CURSOR_CONFIG = {
+  blobType: "circle",
+  fillColor: "#4ECDC4",
+  trailCount: 3,
+  sizes: [50, 100, 70],
+  innerSizes: [18, 30, 22],
+  innerColor: "rgba(255,255,255,0.9)",
+  opacities: [0.8, 0.5, 0.6],
+  shadowColor: "rgba(78, 205, 196, 0.4)",
+  shadowBlur: 8,
+  shadowOffsetX: 2,
+  shadowOffsetY: 2,
+  filterStdDeviation: 25,
+  useFilter: true,
+  fastDuration: ANIMATION_CONFIG.FAST_DURATION,
+  slowDuration: ANIMATION_CONFIG.SLOW_DURATION,
+  fastEase: ANIMATION_CONFIG.FAST_EASE,
+  slowEase: ANIMATION_CONFIG.SLOW_EASE,
+  zIndex: 9999
+};
+
+export const BREAKPOINTS = {
+  MOBILE: 480,
+  TABLET: 768,
+  DESKTOP: 1440
+};

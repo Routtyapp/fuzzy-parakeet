@@ -1,0 +1,103 @@
+/* Blob Cursor Styles - Fixed Version */
+.blob-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  /* overflow 제거 - blob이 어디든 따라갈 수 있도록 */
+}
+
+.blob-filter-svg {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.blob-main {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  /* overflow 제거 - 전체 영역에서 blob 표시 */
+  user-select: none;
+  cursor: default;
+}
+
+.blob {
+  position: absolute;
+  will-change: transform;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  /* 초기 위치를 설정해서 blob이 보이도록 */
+  left: 0;
+  top: 0;
+}
+
+.inner-dot {
+  position: absolute;
+  pointer-events: none;
+}
+
+/* 기본 커서 숨기기 */
+.blob-cursor-active {
+  cursor: none !important;
+}
+
+.blob-cursor-active * {
+  cursor: none !important;
+}
+
+/* 인터랙티브 요소들 */
+.blob-cursor-active button,
+.blob-cursor-active a,
+.blob-cursor-active [role="button"],
+.blob-cursor-active .clickable {
+  cursor: none !important;
+}
+
+/* 성능 최적화 */
+.blob {
+  transform-origin: center center;
+  animation-fill-mode: both;
+}
+
+/* 반응형 - 모바일에서 비활성화 */
+@media (max-width: 768px) {
+  .blob-container {
+    display: none;
+  }
+  
+  .blob-cursor-active,
+  .blob-cursor-active * {
+    cursor: auto !important;
+  }
+}
+
+/* 터치 디바이스에서 비활성화 */
+@media (hover: none) and (pointer: coarse) {
+  .blob-container {
+    display: none;
+  }
+  
+  .blob-cursor-active,
+  .blob-cursor-active * {
+    cursor: auto !important;
+  }
+}
+
+/* 모션 감소 선호도 지원 */
+@media (prefers-reduced-motion: reduce) {
+  .blob-container {
+    display: none;
+  }
+  
+  .blob-cursor-active,
+  .blob-cursor-active * {
+    cursor: auto !important;
+  }
+}
