@@ -1,0 +1,338 @@
+:root {
+  --col-gap: 5%;
+  --row-gap: 5%;
+  --cube-perspective: 99999999px;
+  --cube-face-border: 1px solid #fff;
+  --cube-face-bg: #060010;
+}
+
+/* 🎮 기본 큐브 컨테이너 */
+.cubes-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+}
+
+/* 🎮 오른쪽 배치 전용 클래스 */
+.cubes-right-position {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  left: auto !important;
+  width: 50% !important;
+  height: 100% !important;
+  z-index: 1 !important;
+  /* 디버깅용 임시 배경색 */
+  background: rgba(255, 0, 0, 0.1) !important;
+}
+
+/* 🎨 사이버펑크 레이아웃에서의 큐브 배치 */
+.cyberpunk-layout .cubes-container,
+.cyberpunk-layout .cyberpunk-background .cubes-container {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  left: auto !important;
+  width: 50% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 1 !important;
+}
+
+.cubes-scene {
+  display: grid;
+  width: auto;
+  height: auto;
+  column-gap: var(--col-gap);
+  row-gap: var(--row-gap);
+  perspective: 1000px;
+  grid-auto-rows: 1fr;
+  transform: translateZ(0); /* GPU 가속 */
+  min-width: 70vw;
+  min-height: 70vh;
+}
+
+/* 🎲 기본 큐브 스타일 */
+.cube {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.cube::before {
+  content: '';
+  position: absolute;
+  top: -36px;
+  right: -36px;
+  bottom: -36px;
+  left: -36px;
+}
+
+.cube-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cube-face-bg);
+  border: var(--cube-face-border);
+  opacity: 1;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cube-face--top {
+  transform: translateY(-50%) rotateX(90deg);
+}
+
+.cube-face--bottom {
+  transform: translateY(50%) rotateX(-90deg);
+}
+
+.cube-face--left {
+  transform: translateX(-50%) rotateY(-90deg);
+}
+
+.cube-face--right {
+  transform: translateX(50%) rotateY(90deg);
+}
+
+.cube-face--back,
+.cube-face--front {
+  transform: rotateY(-90deg) translateX(50%) rotateY(90deg);
+}
+
+/* 🎨 사이버펑크 테마 */
+.cubes-cyberpunk-theme {
+  background: 
+    radial-gradient(ellipse at center, rgba(177, 158, 239, 0.03) 0%, transparent 60%),
+    radial-gradient(ellipse at 25% 25%, rgba(0, 255, 65, 0.02) 0%, transparent 70%),
+    radial-gradient(ellipse at 75% 75%, rgba(255, 0, 255, 0.02) 0%, transparent 70%),
+    linear-gradient(135deg, #0a0014 0%, #000000 50%, #001122 100%);
+}
+
+/* 🎮 사이버펑크 테마에서 오른쪽 배치 */
+.cubes-cyberpunk-theme.cubes-container {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  left: auto !important;
+  width: 50% !important;
+  height: 100% !important;
+  z-index: 1 !important;
+}
+
+.cubes-cyberpunk-theme .cube-face {
+  background: var(--cube-face-bg);
+  border: var(--cube-face-border);
+  box-shadow: 0 0 6px rgba(177, 158, 239, 0.4);
+}
+
+.cubes-cyberpunk-theme .cube:hover .cube-face {
+  box-shadow: 0 0 12px rgba(177, 158, 239, 0.7);
+}
+
+.cubes-cyberpunk-theme .cube::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  background: rgba(177, 158, 239, 0.15);
+  border-radius: 1px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  z-index: -1;
+  transform: translateZ(0);
+}
+
+.cubes-cyberpunk-theme .cube:hover::after {
+  opacity: 0.8;
+}
+
+/* 🌿 매트릭스 테마 */
+.cubes-matrix-theme {
+  background: 
+    radial-gradient(ellipse at center, rgba(0, 255, 65, 0.05) 0%, transparent 60%),
+    linear-gradient(135deg, #0a1a0a 0%, #000000 50%, #001100 100%);
+}
+
+.cubes-matrix-theme .cube-face {
+  background: var(--cube-face-bg);
+  border: var(--cube-face-border);
+  box-shadow: 0 0 5px rgba(0, 255, 65, 0.3);
+}
+
+.cubes-matrix-theme .cube:hover .cube-face {
+  box-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
+}
+
+.cubes-matrix-theme .cube::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  background: rgba(0, 255, 65, 0.1);
+  border-radius: 1px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  z-index: -1;
+  transform: translateZ(0);
+}
+
+.cubes-matrix-theme .cube:hover::after {
+  opacity: 0.6;
+}
+
+/* 🎨 기본 테마 */
+.cubes-default-theme {
+  background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+}
+
+.cubes-default-theme .cube-face {
+  background: var(--cube-face-bg);
+  border: var(--cube-face-border);
+  box-shadow: 0 0 3px rgba(255, 255, 255, 0.2);
+}
+
+.cubes-default-theme .cube:hover .cube-face {
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+}
+
+/* 📱 태블릿 최적화 */
+@media (max-width: 768px) {
+  .cubes-scene {
+    perspective: 700px;
+    min-width: 80vw;
+    min-height: 70vh;
+  }
+  
+  /* 사이버펑크 레이아웃 모바일 조정 */
+  .cyberpunk-layout .cubes-container,
+  .cubes-right-position {
+    position: relative !important;
+    width: 100% !important;
+    height: 400px !important;
+    top: auto !important;
+    right: auto !important;
+    left: auto !important;
+  }
+  
+  .cyberpunk-layout .cubes-scene {
+    min-width: 90vw;
+    min-height: 350px;
+  }
+  
+  .cubes-cyberpunk-theme .cube-face,
+  .cubes-matrix-theme .cube-face,
+  .cubes-default-theme .cube-face {
+    box-shadow: none; /* 모바일에서 그림자 제거 */
+    transition: none; /* 트랜지션 비활성화 */
+  }
+  
+  .cubes-cyberpunk-theme .cube::after,
+  .cubes-matrix-theme .cube::after {
+    display: none; /* 글로우 효과 비활성화 */
+  }
+  
+  .cubes-cyberpunk-theme .cube:hover .cube-face,
+  .cubes-matrix-theme .cube:hover .cube-face,
+  .cubes-default-theme .cube:hover .cube-face {
+    box-shadow: none;
+  }
+}
+
+/* 📱 모바일 최적화 */
+@media (max-width: 480px) {
+  .cubes-scene {
+    perspective: 600px;
+    min-width: 90vw;
+    min-height: 55vh;
+  }
+  
+  /* 사이버펑크 레이아웃 소형 모바일 조정 */
+  .cyberpunk-layout .cubes-container,
+  .cubes-right-position {
+    position: relative !important;
+    width: 100% !important;
+    height: 280px !important;
+    top: auto !important;
+    right: auto !important;
+    left: auto !important;
+  }
+  
+  .cyberpunk-layout .cubes-scene {
+    min-width: 95vw;
+    min-height: 280px;
+  }
+  
+  .cube {
+    will-change: auto; /* 성능 최적화 */
+  }
+  
+  .cube-face {
+    will-change: auto;
+  }
+}
+
+/* ⚡ 성능 최적화 */
+.cubes-container {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.cubes-scene {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* 🔇 모션 감소 선호도 */
+@media (prefers-reduced-motion: reduce) {
+  .cube,
+  .cube-face {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .cubes-cyberpunk-theme .cube-face,
+  .cubes-matrix-theme .cube-face,
+  .cubes-default-theme .cube-face {
+    box-shadow: none !important;
+  }
+  
+  .cubes-cyberpunk-theme .cube::after,
+  .cubes-matrix-theme .cube::after {
+    display: none !important;
+  }
+}
+
+/* 🚀 추가 성능 최적화 */
+@media (max-width: 768px) {
+  .cubes-cyberpunk-theme {
+    background: #000814 !important; /* 단순한 배경 */
+  }
+  
+  .cubes-matrix-theme {
+    background: #001100 !important;
+  }
+  
+  .cubes-default-theme {
+    background: #000000 !important;
+  }
+}

@@ -30,8 +30,9 @@ export const PRESET_CONFIG = {
     theme: "space"
   },
   3: {
-    title: "Future Ready",
-    subtitle: "최신 기술로 미래를 만들어갑니다",
+    title: "Stay on top of trends",
+    subtitle: "기본에 충실하면서 트렌드를 놓치지 않습니다",
+    theme: "cyberpunk",
     elementCounts: {
       desktop: { matrixCols: 100, gridH: 20, gridV: 25 },
       tablet: { matrixCols: 60, gridH: 15, gridV: 18 },

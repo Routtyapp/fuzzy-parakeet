@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 // 상수 및 훅 임포트
 import { PRESET_CONFIG, NAVIGATION_CONFIG, BLOB_CURSOR_CONFIG, ANIMATION_CONFIG } from './constants';
 import { 
-  useDeviceType, 
+  useDeviceType,
   useWebGLSupport, 
   useKeyboardNavigation,
   usePageVisibility
@@ -17,6 +17,7 @@ const BlobCursor = lazy(() => import('./BlobCursor'));
 const Aurora = lazy(() => import('./Aurora'));
 const Orb = lazy(() => import('./Orb'));
 const Particles = lazy(() => import('./Particles'));
+const Cubes = lazy(() => import('./Cubes'));
 
 const App = () => {
   const [activePage, setActivePage] = useState('home');
@@ -68,107 +69,6 @@ const App = () => {
   const HomePage = React.memo(() => {
     const currentPreset = PRESET_CONFIG[homePreset];
 
-    // 혜성 생성 함수
-    const createComet = useCallback((x, y) => {
-      const container = document.querySelector('.space-background');
-      if (!container) return;
-
-      // 혜성 경로 계산 (클릭 지점을 통과하는 랜덤 궤도)
-      const containerRect = container.getBoundingClientRect();
-      const centerX = x - containerRect.left;
-      const centerY = y - containerRect.top;
-
-      // 랜덤한 각도와 거리로 시작점과 끝점 계산
-      const angle = Math.random() * Math.PI * 2;
-      const distance = Math.min(window.innerWidth, window.innerHeight) * 0.8;
-      
-      const startX = centerX - Math.cos(angle) * distance;
-      const startY = centerY - Math.sin(angle) * distance;
-      const endX = centerX + Math.cos(angle) * distance;
-      const endY = centerY + Math.sin(angle) * distance;
-
-      // 혜성 요소 생성
-      const comet = document.createElement('div');
-      comet.className = 'comet flying';
-      
-      // CSS 변수로 애니메이션 경로 설정
-      const duration = 1.5 + Math.random() * 1; // 1.5~2.5초
-      const rotationAngle = (angle * 180 / Math.PI) + 90; // 꼬리가 뒤따르도록
-      
-      comet.style.setProperty('--start-x', `${startX}px`);
-      comet.style.setProperty('--start-y', `${startY}px`);
-      comet.style.setProperty('--end-x', `${endX}px`);
-      comet.style.setProperty('--end-y', `${endY}px`);
-      comet.style.setProperty('--angle', `${rotationAngle}deg`);
-      comet.style.setProperty('--duration', `${duration}s`);
-
-      // 혜성 구조 생성
-      const core = document.createElement('div');
-      core.className = 'comet-core';
-      
-      const tail = document.createElement('div');
-      tail.className = 'comet-tail';
-      
-      const sparkles = document.createElement('div');
-      sparkles.className = 'comet-sparkles';
-      
-      // 반짝임 효과 생성
-      for (let i = 0; i < 5; i++) {
-        const sparkle = document.createElement('div');
-        sparkle.className = 'sparkle';
-        
-        // 각 반짝임의 랜덤 방향
-        const sparkleAngle = Math.random() * Math.PI * 2;
-        const sparkleDistance = 20 + Math.random() * 30;
-        const sparkleX = Math.cos(sparkleAngle) * sparkleDistance;
-        const sparkleY = Math.sin(sparkleAngle) * sparkleDistance;
-        
-        sparkle.style.setProperty('--sparkle-x', `${sparkleX}px`);
-        sparkle.style.setProperty('--sparkle-y', `${sparkleY}px`);
-        sparkle.style.left = `${Math.random() * 20 - 10}px`;
-        sparkle.style.top = `${Math.random() * 20 - 10}px`;
-        
-        sparkles.appendChild(sparkle);
-      }
-
-      comet.appendChild(core);
-      comet.appendChild(tail);
-      comet.appendChild(sparkles);
-      container.appendChild(comet);
-
-      // 애니메이션 완료 후 제거
-      setTimeout(() => {
-        if (container.contains(comet)) {
-          container.removeChild(comet);
-        }
-      }, duration * 1000 + 500);
-    }, []);
-
-    // 우주 배경 클릭 핸들러
-    const handleSpaceClick = useCallback((e) => {
-      // 조건을 함수 내부에서 체크
-      if (currentPreset.theme === 'space') {
-        createComet(e.clientX, e.clientY);
-      }
-    }, [createComet, currentPreset.theme]); // currentPreset.theme 의존성 추가
-
-    // 매트릭스 컬럼 랜덤 값 메모이제이션 (프리셋 3번용)
-    const matrixColumns = useMemo(() => {
-      // 초기 렌더링 시에만 생성하여 애니메이션 깜빡임 방지
-      const colCount = 60; // 고정값 사용 (CSS로 반응형 처리)
-      return Array.from({ length: colCount }).map((_, i) => ({
-        id: i,
-        left: (i / colCount) * 100,
-        width: 100 / colCount,
-        animationDelay: Math.random() * 10,
-        animationDuration: Math.random() * 5 + 8,
-        chars: Array.from({ length: 30 }).map((_, j) => ({
-          id: j,
-          char: String.fromCharCode(0x30A0 + Math.random() * 96)
-        }))
-      }));
-    }, []); // 의존성 제거하여 한 번만 생성
-
     // 프리셋별 배경 렌더링 함수
     const renderPresetBackground = () => {
       switch (homePreset) {
@@ -207,7 +107,7 @@ const App = () => {
 
         case 2:
           return (
-            <div className="space-background" onClick={handleSpaceClick}>
+            <div className="space-background">
               <Suspense fallback={<div className="loading-placeholder">우주 로딩 중...</div>}>
                 <Particles
                   particleColors={['#ffffff', '#4ECDC4', '#45B7D1', '#667eea', '#f093fb']}
@@ -228,57 +128,16 @@ const App = () => {
 
         case 3:
           return (
-            <>
-              <div className="matrix-background">
-                <div className="matrix-rain">
-                  {matrixColumns.map((column) => (
-                    <div 
-                      key={column.id} 
-                      className="matrix-column" 
-                      style={{
-                        left: `${column.left}%`,
-                        width: `${column.width}%`, 
-                        animationDelay: `${column.animationDelay}s`,
-                        animationDuration: `${column.animationDuration}s`,
-                        animationPlayState: isPageVisible ? 'running' : 'paused'
-                      }}
-                    >
-                      {column.chars.map((charData) => (
-                        <span key={charData.id} className="matrix-char">
-                          {charData.char}
-                        </span>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="neon-grid">
-                <div className="grid-lines horizontal">
-                  {Array.from({ length: 15 }).map((_, i) => (
-                    <div 
-                      key={i} 
-                      className="grid-line"
-                      style={{
-                        animationDelay: `${i * 0.15}s`,
-                        animationPlayState: isPageVisible ? 'running' : 'paused'
-                      }}
-                    />
-                  ))}
-                </div>
-                <div className="grid-lines vertical">
-                  {Array.from({ length: 20 }).map((_, i) => (
-                    <div 
-                      key={i} 
-                      className="grid-line"
-                      style={{
-                        animationDelay: `${i * 0.15 + 1.5}s`,
-                        animationPlayState: isPageVisible ? 'running' : 'paused'
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-            </>
+            <div className="cyberpunk-background">
+              <Suspense fallback={<div className="loading-placeholder">사이버 큐브 로딩 중...</div>}>
+                <Cubes 
+                  preset="cyberpunk"
+                  theme="matrix"
+                  isActive={isPageVisible}
+                  deviceType={deviceType}
+                />
+              </Suspense>
+            </div>
           );
 
         default:
@@ -287,30 +146,59 @@ const App = () => {
     };
 
     return (
-      <div className="page-container home-page">
+      <div className={`page-container home-page ${homePreset === 3 ? 'cyberpunk-layout' : ''}`}>
         {renderPresetBackground()}
         
         <div className="main-welcome-display">
           <div className="welcome-content">
-            <div className="welcome-text">
-              <motion.h1
-                key={homePreset}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                {currentPreset.title}
-              </motion.h1>
-              <motion.p 
-                className="welcome-subtitle"
-                key={`${homePreset}-subtitle`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-              >
-                {currentPreset.subtitle}
-              </motion.p>
-            </div>
+            {homePreset === 3 ? (
+              /* 사이버펑크 레이아웃: 좌측 텍스트, 우측 큐브 */
+              <div className="cyberpunk-content-layout">
+                <div className="cyberpunk-text-section">
+                  <motion.h1
+                    key={homePreset}
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    {currentPreset.title}
+                  </motion.h1>
+                  <motion.p 
+                    className="welcome-subtitle"
+                    key={`${homePreset}-subtitle`}
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.1 }}
+                  >
+                    {currentPreset.subtitle}
+                  </motion.p>
+                </div>
+                <div className="cyberpunk-cubes-section">
+                  {/* Cubes는 CSS에서 우측으로 배치됨 */}
+                </div>
+              </div>
+            ) : (
+              /* 기본 레이아웃: 중앙 정렬 */
+              <div className="welcome-text">
+                <motion.h1
+                  key={homePreset}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {currentPreset.title}
+                </motion.h1>
+                <motion.p 
+                  className="welcome-subtitle"
+                  key={`${homePreset}-subtitle`}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                >
+                  {currentPreset.subtitle}
+                </motion.p>
+              </div>
+            )}
           </div>
         </div>
 
