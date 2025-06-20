@@ -1,0 +1,274 @@
+/* 🌌 가르간투아 블랙홀 컨테이너 */
+.blackhole-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: 
+    radial-gradient(ellipse at center, rgba(10, 10, 20, 0.9) 0%, transparent 60%),
+    radial-gradient(ellipse at 30% 20%, rgba(20, 10, 30, 0.4) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 80%, rgba(30, 20, 10, 0.3) 0%, transparent 50%),
+    linear-gradient(135deg, #000005 0%, #000000 50%, #000010 100%);
+}
+
+.blackhole-container.gargantua {
+  background: 
+    radial-gradient(ellipse at center, rgba(5, 5, 10, 0.95) 0%, transparent 70%),
+    radial-gradient(ellipse at 25% 25%, rgba(15, 8, 20, 0.5) 0%, transparent 60%),
+    radial-gradient(ellipse at 75% 75%, rgba(20, 10, 5, 0.4) 0%, transparent 60%),
+    linear-gradient(135deg, #000002 0%, #000000 50%, #000008 100%);
+}
+
+.blackhole-mount {
+  width: 100%;
+  height: 100%;
+  cursor: none;
+}
+
+.blackhole-mount canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* 🎮 UI 오버레이 */
+.blackhole-ui {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.blackhole-instructions {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  border-radius: 12px;
+  padding: 15px 20px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* 🎮 가르간투아 UI 스타일 */
+.blackhole-instructions.gargantua-ui {
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 140, 0, 0.5);
+  border-radius: 15px;
+  padding: 20px 25px;
+  box-shadow: 
+    0 12px 35px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 140, 0, 0.3);
+}
+
+.gargantua-ui p:first-child {
+  font-size: 18px;
+  font-weight: 800;
+  color: #ff8c00;
+  text-shadow: 0 0 15px rgba(255, 140, 0, 0.8);
+  margin-bottom: 15px;
+  letter-spacing: 3px;
+  text-align: center;
+}
+
+.blackhole-instructions p {
+  margin: 0;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #e0e0e0;
+}
+
+.blackhole-instructions p:last-child {
+  margin-bottom: 0;
+}
+
+.gargantua-ui p:last-child {
+  color: #ffa500;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+/* 🌟 가르간투아 글로우 효과 */
+.blackhole-container::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 107, 107, 0.1) 0%,
+    rgba(255, 140, 0, 0.05) 30%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  animation: blackholeGlow 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.blackhole-container.gargantua::before {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 140, 0, 0.08) 0%,
+    rgba(255, 100, 0, 0.04) 25%,
+    rgba(255, 80, 0, 0.02) 50%,
+    transparent 70%
+  );
+  animation: gargantuaGlow 12s ease-in-out infinite;
+}
+
+@keyframes blackholeGlow {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.1;
+  }
+}
+
+@keyframes gargantuaGlow {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.4;
+  }
+  33% {
+    transform: translate(-50%, -50%) scale(1.15);
+    opacity: 0.25;
+  }
+  66% {
+    transform: translate(-50%, -50%) scale(1.08);
+    opacity: 0.35;
+  }
+}
+
+/* 🌌 우주 배경 별들 */
+.blackhole-container.gargantua::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(2px 2px at 20px 30px, #ffffff, transparent),
+    radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 90px 40px, #ffffff, transparent),
+    radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(2px 2px at 160px 30px, #ffffff, transparent),
+    radial-gradient(1px 1px at 300px 200px, rgba(255,255,255,0.4), transparent),
+    radial-gradient(2px 2px at 350px 120px, #ffffff, transparent);
+  background-repeat: repeat;
+  background-size: 400px 300px;
+  animation: twinkle 20s linear infinite;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+/* 📱 모바일 최적화 */
+@media (max-width: 768px) {
+  .blackhole-ui {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+  }
+  
+  .blackhole-instructions {
+    padding: 12px 15px;
+    font-size: 12px;
+  }
+  
+  .blackhole-instructions.gargantua-ui {
+    padding: 15px 18px;
+  }
+  
+  .gargantua-ui p:first-child {
+    font-size: 16px;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+  
+  .blackhole-container.gargantua::before {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .blackhole-instructions {
+    padding: 10px 12px;
+    font-size: 11px;
+  }
+  
+  .blackhole-instructions.gargantua-ui {
+    padding: 12px 15px;
+  }
+  
+  .gargantua-ui p:first-child {
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+  
+  .blackhole-instructions p {
+    margin-bottom: 6px;
+  }
+  
+  .blackhole-container.gargantua::before {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+/* 🎯 터치 디바이스 지원 */
+@media (hover: none) and (pointer: coarse) {
+  .blackhole-mount {
+    cursor: auto;
+  }
+}
+
+/* ⚡ 성능 최적화 */
+.blackhole-container {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.blackhole-mount {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* 🔇 모션 감소 선호도 */
+@media (prefers-reduced-motion: reduce) {
+  .blackhole-container::before,
+  .blackhole-container.gargantua::before,
+  .blackhole-container.gargantua::after {
+    animation: none;
+    opacity: 0.3;
+  }
+}
+
+/* 🌌 고해상도 디스플레이 최적화 */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .blackhole-mount canvas {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}

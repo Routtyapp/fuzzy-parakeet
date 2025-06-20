@@ -38,6 +38,38 @@ export const PRESET_CONFIG = {
       tablet: { matrixCols: 60, gridH: 15, gridV: 18 },
       mobile: { matrixCols: 30, gridH: 10, gridV: 12 }
     }
+  },
+  4: {
+    title: "Black Hole Explorer",
+    subtitle: "중력을 조작하여 파티클을 제어하세요 🌌",
+    theme: "interstellar",
+    blackhole: {
+      particleCount: {
+        desktop: 1500,
+        tablet: 1200,
+        mobile: 800
+      },
+      blackHoleRadius: {
+        desktop: 20,
+        tablet: 18,
+        mobile: 15
+      },
+      maxDistance: {
+        desktop: 100,
+        tablet: 90,
+        mobile: 80
+      },
+      gravityStrength: {
+        desktop: 0.8,
+        tablet: 0.7,
+        mobile: 0.5
+      },
+      colors: {
+        eventHorizon: "#000000",
+        accretionDisk: "#ff6b35",
+        particles: ["#ff6b35", "#ff8c42", "#ffa500", "#ffb347"]
+      }
+    }
   }
 };
 

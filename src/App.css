@@ -336,50 +336,28 @@ html {
   pointer-events: none;
 }
 
-/* Preset 3: Cyberpunk Background */
-.cyberpunk-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  overflow: hidden;
-  background: 
-    radial-gradient(ellipse at center, rgba(177, 158, 239, 0.03) 0%, transparent 60%),
-    radial-gradient(ellipse at 25% 25%, rgba(0, 255, 65, 0.02) 0%, transparent 70%),
-    radial-gradient(ellipse at 75% 75%, rgba(255, 0, 255, 0.02) 0%, transparent 70%),
-    linear-gradient(135deg, #0a0014 0%, #000000 50%, #001122 100%);
-}
+
 
 /* 🎮 사이버펑크 레이아웃 (프리셋 3번 전용) */
-.cyberpunk-layout .main-welcome-display {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  padding: 0 60px;
-}
-
-.cyberpunk-content-layout {
+.cyberpunk-split-layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
+  grid-template-columns: 1.2fr 0.8fr;
   width: 100%;
-  max-width: 1400px;
   height: 100%;
+  min-height: 80vh;
   align-items: center;
+  gap: 40px;
 }
 
 .cyberpunk-text-section {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: flex-start;
+  padding-left: 80px;
+  padding-right: 20px;
   text-align: left;
-  padding-left: 40px;
-  /* 디버깅용 임시 배경색 */
-  background: rgba(0, 255, 0, 0.1);
+  z-index: 2;
 }
 
 .cyberpunk-text-section h1 {
@@ -397,7 +375,7 @@ html {
   color: #cccccc;
   font-weight: 300;
   line-height: 1.4;
-  max-width: 500px;
+  margin-top: 0;
 }
 
 .cyberpunk-cubes-section {
@@ -406,68 +384,182 @@ html {
   align-items: center;
   justify-content: center;
   height: 100%;
-  min-height: 600px;
-}
-
-/* Page Styles */
-.page-container {
-  width: 100%;
-  max-width: 1600px;
-  height: 100%;
-  margin: 0 auto;
-  padding: 20px;
-  position: relative;
   z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 20px;
 }
 
-/* 사이버펑크 레이아웃 페이지 컨테이너 오버라이드 */
-.page-container.home-page.cyberpunk-layout {
-  max-width: none;
-  padding: 0;
+/* 🎮 사이버펑크 배경에서 큐브 위치 조정 - 중앙 배치 */
+.cyberpunk-background .cyberpunk-cubes-container {
+  position: relative !important;
+  top: auto !important;
+  right: auto !important;
+  left: auto !important;
+  transform: none !important;
+  width: auto !important;
+  height: auto !important;
+  z-index: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
-.page-content {
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 24px;
-  padding: 80px;
+/* 📱 태블릿 반응형 */
+@media (max-width: 1024px) {
+  .cyberpunk-split-layout {
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 30px;
+  }
+  
+  .cyberpunk-text-section {
+    padding-left: 60px;
+  }
+  
+  .cyberpunk-text-section h1 {
+    font-size: 60px;
+  }
+  
+  .cyberpunk-text-section .welcome-subtitle {
+    font-size: 20px;
+  }
+}
+
+/* 📱 모바일 반응형 */
+@media (max-width: 768px) {
+  .cyberpunk-split-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .cyberpunk-text-section {
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center;
+    align-items: center;
+  }
+  
+  .cyberpunk-text-section h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+  }
+  
+  .cyberpunk-text-section .welcome-subtitle {
+    font-size: 18px;
+  }
+  
+  .cyberpunk-cubes-section {
+    padding: 10px;
+  }
+  
+  .cyberpunk-background .cyberpunk-cubes-container {
+    width: 100% !important;
+    height: auto !important;
+    margin-top: 20px;
+  }
+}
+
+/* 📱 소형 모바일 */
+@media (max-width: 480px) {
+  .cyberpunk-text-section h1 {
+    font-size: 36px;
+  }
+  
+  .cyberpunk-text-section .welcome-subtitle {
+    font-size: 16px;
+  }
+  
+  .cyberpunk-cubes-section {
+    padding: 5px;
+  }
+}
+
+/* 🌌 블랙홀 레이아웃 (프리셋 4번 전용) */
+.blackhole-layout {
+  position: relative;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: none !important;
+  padding: 0 !important;
+}
+
+.blackhole-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  max-width: 1400px;
-  max-height: 80vh;
-  overflow-y: auto;
-  box-shadow: 
-    0 25px 60px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
 }
 
-.page-header {
-  text-align: center;
-  margin-bottom: 50px;
+/* 블랙홀 프리셋에서는 welcome-display 숨김 */
+.blackhole-layout .main-welcome-display {
+  display: none;
 }
 
-.page-header h1 {
-  font-size: 56px;
-  font-weight: 800;
+/* 블랙홀 프리셋 버튼 스타일 */
+.preset-btn:nth-child(4) {
+  background: linear-gradient(135deg, #ff6b35, #ff8c42);
+  border-color: rgba(255, 107, 53, 0.5);
+}
+
+.preset-btn:nth-child(4):hover {
+  background: linear-gradient(135deg, #ff8c42, #ff6b35);
+  box-shadow: 0 0 25px rgba(255, 107, 53, 0.4);
+}
+
+.preset-btn:nth-child(4).preset-btn-active {
+  background: linear-gradient(135deg, #ff6b35, #ff4500);
+  box-shadow: 0 0 35px rgba(255, 107, 53, 0.6);
   color: #ffffff;
-  margin-bottom: 25px;
-  letter-spacing: -1px;
 }
 
-.page-header-decoration {
-  width: 80px;
-  height: 4px;
-  background: linear-gradient(90deg, #4ECDC4, #45B7D1, #667eea);
-  border-radius: 2px;
-  margin: 0 auto;
+/* 🌌 블랙홀 프리셋에서 프리셋 버튼 위치 조정 */
+.blackhole-layout .preset-buttons {
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  top: auto;
+  transform: none;
+  flex-direction: row;
+  gap: 15px;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  padding: 10px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.content-section {
-  max-width: 1200px;
-  margin: 0 auto;
+/* 📱 블랙홀 레이아웃 모바일 최적화 */
+@media (max-width: 768px) {
+  .blackhole-layout .preset-buttons {
+    right: 20px;
+    bottom: 20px;
+    gap: 12px;
+    padding: 8px;
+  }
+  
+  .blackhole-layout .preset-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .blackhole-layout .preset-buttons {
+    right: 15px;
+    bottom: 15px;
+    gap: 10px;
+    padding: 6px;
+  }
+  
+  .blackhole-layout .preset-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+  }
 }
 
 /* About Page */
@@ -1554,3 +1646,4 @@ a:hover,
     transition-duration: 0.01ms !important;
   }
 }
+

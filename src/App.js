@@ -18,6 +18,7 @@ const Aurora = lazy(() => import('./Aurora'));
 const Orb = lazy(() => import('./Orb'));
 const Particles = lazy(() => import('./Particles'));
 const Cubes = lazy(() => import('./Cubes'));
+const BlackHole = lazy(() => import('./BlackHole'));
 
 const App = () => {
   const [activePage, setActivePage] = useState('home');
@@ -129,10 +130,15 @@ const App = () => {
         case 3:
           return (
             <div className="cyberpunk-background">
-              <Suspense fallback={<div className="loading-placeholder">사이버 큐브 로딩 중...</div>}>
-                <Cubes 
-                  preset="cyberpunk"
-                  theme="matrix"
+              {/* 배경만 담당 */}
+            </div>
+          );
+
+        case 4:
+          return (
+            <div className="blackhole-wrapper">
+              <Suspense fallback={<div className="loading-placeholder">블랙홀 로딩 중...</div>}>
+                <BlackHole 
                   isActive={isPageVisible}
                   deviceType={deviceType}
                 />
@@ -145,65 +151,86 @@ const App = () => {
       }
     };
 
+    // 🌌 블랙홀 프리셋은 특별한 레이아웃
+    const isBlackHolePreset = homePreset === 4;
+    const isCyberpunkPreset = homePreset === 3;
+
     return (
-      <div className={`page-container home-page ${homePreset === 3 ? 'cyberpunk-layout' : ''}`}>
+      <div className={`page-container home-page ${isCyberpunkPreset ? 'cyberpunk-layout' : ''} ${isBlackHolePreset ? 'blackhole-layout' : ''}`}>
         {renderPresetBackground()}
         
-        <div className="main-welcome-display">
-          <div className="welcome-content">
-            {homePreset === 3 ? (
-              /* 사이버펑크 레이아웃: 좌측 텍스트, 우측 큐브 */
-              <div className="cyberpunk-content-layout">
-                <div className="cyberpunk-text-section">
+        {!isBlackHolePreset && (
+          <div className="main-welcome-display">
+            <div className="welcome-content">
+              {isCyberpunkPreset ? (
+                /* 사이버펑크 레이아웃: 좌측 텍스트, 우측 큐브 */
+                <div className="cyberpunk-split-layout">
+                  <div className="cyberpunk-text-section">
+                    <motion.h1
+                      key={homePreset}
+                      initial={{ opacity: 0, x: -50 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      {currentPreset.title}
+                    </motion.h1>
+                    <motion.p 
+                      className="welcome-subtitle"
+                      key={`${homePreset}-subtitle`}
+                      initial={{ opacity: 0, x: -50 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5, delay: 0.1 }}
+                    >
+                      {currentPreset.subtitle}
+                    </motion.p>
+                  </div>
+                  <div className="cyberpunk-cubes-section">
+                    <Suspense fallback={<div className="loading-placeholder">사이버 큐브 로딩 중...</div>}>
+                      <Cubes 
+                        gridSize={6}
+                        cubeSize={deviceType === 'mobile' ? 45 : deviceType === 'tablet' ? 55 : 60}
+                        maxAngle={180}
+                        radius={3}
+                        borderStyle="2px dashed #B19EEF"
+                        faceColor="rgba(6, 0, 16, 0.9)"
+                        rippleColor="#ff00ff"
+                        rippleSpeed={2}
+                        cellGap={deviceType === 'mobile' ? 6 : 8}
+                        isActive={isPageVisible}
+                        deviceType={deviceType}
+                      />
+                    </Suspense>
+                  </div>
+                </div>
+            
+              ) : (
+                /* 기본 레이아웃: 중앙 정렬 */
+                <div className="welcome-text">
                   <motion.h1
                     key={homePreset}
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                   >
-                    {currentPreset.title}
+                    {currentPreset?.title || 'Welcome'}
                   </motion.h1>
                   <motion.p 
                     className="welcome-subtitle"
                     key={`${homePreset}-subtitle`}
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.1 }}
                   >
-                    {currentPreset.subtitle}
+                    {currentPreset?.subtitle || 'Experience the universe'}
                   </motion.p>
                 </div>
-                <div className="cyberpunk-cubes-section">
-                  {/* Cubes는 CSS에서 우측으로 배치됨 */}
-                </div>
-              </div>
-            ) : (
-              /* 기본 레이아웃: 중앙 정렬 */
-              <div className="welcome-text">
-                <motion.h1
-                  key={homePreset}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  {currentPreset.title}
-                </motion.h1>
-                <motion.p 
-                  className="welcome-subtitle"
-                  key={`${homePreset}-subtitle`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
-                >
-                  {currentPreset.subtitle}
-                </motion.p>
-              </div>
-            )}
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="preset-buttons">
-          {[1, 2, 3].map((preset) => (
+          {[1, 2, 3, 4].map((preset) => (
             <motion.button
               key={preset}
               onClick={() => handlePresetChange(preset)}
@@ -213,7 +240,7 @@ const App = () => {
               aria-label={`프리셋 ${preset} (F${preset})`}
               title={`프리셋 ${preset} - F${preset} 키로 전환 가능`}
             >
-              {preset}
+              {preset === 4 ? '🌌' : preset}
             </motion.button>
           ))}
         </div>
